@@ -36,7 +36,7 @@ public class ControlPessoaArray {
 				if (i > (this.pessoas.length - 1)) {
 					throw new ArrayIndexOutOfBoundsException("Numero de registros excede o tamanho do Array!!!");
 				} else {
-					this.pessoas[i] = new Pessoa(x.getId(), x.getNome(), x.getIdade());
+					this.pessoas[i] = new Pessoa(x.getId(), x.getNome(), x.getIdade(),x.getCargo(),x.getSalario());
 					i++;
 				}
 			} 
@@ -58,7 +58,7 @@ public class ControlPessoaArray {
 					System.out.println("Numero de registros excede o tamanho do Array!!!");
 				} else {
 					for (Pessoa x : p) {
-						this.pessoas[i] = new Pessoa(x.getId(), x.getNome(), x.getIdade());
+						this.pessoas[i] = new Pessoa(x.getId(), x.getNome(), x.getIdade(),x.getCargo(),x.getSalario());
 						i++;
 					}
 				}
@@ -141,9 +141,9 @@ public class ControlPessoaArray {
 
 	public static void main(String[] args) {
 
-		Pessoa p1 = new Pessoa(01, "Mairton", 29);
-		Pessoa p2 = new Pessoa(02, "Deyvith", 30);
-		Pessoa p3 = new Pessoa(03, "Tony", 30);
+		Pessoa p1 = new Pessoa(01, "Mairton", 29,"analista",8000.0);
+		Pessoa p2 = new Pessoa(02, "Deyvith", 30,"analista",8200.0);
+		Pessoa p3 = new Pessoa(03, "Tony", 30,"analsita senior",10000.0);
 		
 
 		ControlPessoaArray cp = new ControlPessoaArray();
@@ -151,57 +151,92 @@ public class ControlPessoaArray {
 		cp.adicionarPessoaVazio(10, p1, p2, p3);
 //		cp.adicionarPessoa(2, p1, p2);
 	// cp.removerPessoa(new Pessoa(12, null, null));
-	 cp.atualizarPessoa(new Pessoa(03, "Kenny", 22));
+//	 cp.atualizarPessoa(new Pessoa(03, "Kenny", 22));
 		
 		
 		Scanner in = new Scanner(System.in);
 		int menu;
 		
-		System.out.println("Digite 1 para cadastrar");
-		System.out.println("Digite 2 alterar cadastro");
-		System.out.println("Digite 3 para listar todos");
-		System.out.println("Digite 4 para deletetar pessoa");
-		menu = Integer.parseInt(in.nextLine());
+		
+		boolean val = false;
+		while(val == false) { // Enquanto "val"for "false" o while vai ficar fazendo loop, mas quando se tornar "true" ele vai parar
+//            int opc = esc.menu();
+//            val = esc.escolher(opc);
+//			System.out.println("Digite 1 para cadastrar");
+//			System.out.println("Digite 2 alterar cadastro");
+//			System.out.println("Digite 3 para listar todos");
+//			System.out.println("Digite 4 para deletetar pessoa");
+			
+			System.out.println("-----------------------------------------" + "\n" + 
+	                 "BEM VINDO AO SISTEMA DE FUNCIONÁRIOS" + "\n" +
+	                 "-----------------------------------------" + "\n" +
+	                 "DIGITE A OPÇÃO DESEJADA: " + "\n" +
+	                 "[1] Para cadastrar funcionário" + "\n" + 
+	                 "[2] Para alterar funcionário" + "\n" + 
+	                 "[3] Para listar funcionários" + "\n" +
+	                 "[4] Para deletar funcionário" + "\n" +
+	                 "[5] Para SAIR" + "\n" +
+	                 "-----------------------------------------");
+			menu = Integer.parseInt(in.nextLine());
+			
+			switch(menu) {
+			  case 1:
+				 System.out.println("Digeite ID");
+				 int id = Integer.parseInt(in.nextLine());
+				 System.out.println("Digite o nome");
+				 String nome = String.valueOf(in.nextLine());
+				 System.out.println("Digeite idade");
+				 int idade = Integer.parseInt(in.nextLine());
+				 System.out.println("Digite o cargo");
+				 String cargo = String.valueOf(in.nextLine());
+				 System.out.println("Digeite salario");
+				 Double sal = Double.parseDouble(in.nextLine());
+				 
+				 cp.adicionarPessoa(1, new Pessoa(id,nome,idade,cargo,sal));
+				 cp.listarPessoa();
+			    // code block
+				 val = false;
+				 break;
+			  case 2:
+				 System.out.println("Digeite ID");
+				 int idUpdate = Integer.parseInt(in.nextLine());
+				 System.out.println("Digite o nome");
+				 String nomeUpdate = String.valueOf(in.nextLine());
+				 System.out.println("Digeite idade");
+				 int idadeUpdate = Integer.parseInt(in.nextLine());
+				 System.out.println("Digite o cargo");
+				 String cargoUpdate = String.valueOf(in.nextLine());
+				 System.out.println("Digeite salario");
+				 Double salUpdate = Double.parseDouble(in.nextLine());
+				 
+				 cp.atualizarPessoa(new Pessoa(idUpdate,nomeUpdate,idadeUpdate,cargoUpdate,salUpdate));
+				 cp.listarPessoa();
+			    // code block
+				 val = false;
+				break; 
+			  case 3:			  
+				  System.out.println("entrou em listar todos");
+				  cp.listarPessoa();
+				  val = false;
+				  break;
+			  case 4:
+				  System.out.println("Digite id da Pessoa para deletar");
+				  int idDelete = Integer.parseInt(in.nextLine());
+				  cp.removerPessoa(new Pessoa(idDelete, null, null,null,null));
+				  cp.listarPessoa();
+			    // code block
+				  val = false;
+				  break;
+			  case 5:
+				  System.out.println("VOCÊ SAIU!");
+				  val = true;
+				  break;
+			  default:
+			    // code block
+			}
+        }
 		
 		// aqui tem o menu inicial
-		switch(menu) {
-		  case 1:
-			 System.out.println("Digeite ID");
-			 int id = Integer.parseInt(in.nextLine());
-			 System.out.println("Digite o nome");
-			 String nome = String.valueOf(in.nextLine());
-			 System.out.println("Digeite idade");
-			 int idade = Integer.parseInt(in.nextLine());
-			 
-			 cp.adicionarPessoa(1, new Pessoa(id,nome,idade));
-			 cp.listarPessoa();
-		    // code block
-		    break;
-		  case 2:
-			 System.out.println("Digeite ID");
-			 int idUpdate = Integer.parseInt(in.nextLine());
-			 System.out.println("Digite o nome");
-			 String nomeUpdate = String.valueOf(in.nextLine());
-			 System.out.println("Digeite idade");
-			 int idadeUpdate = Integer.parseInt(in.nextLine());
-			 
-			 cp.atualizarPessoa(new Pessoa(idUpdate,nomeUpdate,idadeUpdate));
-			 cp.listarPessoa();
-		    // code block
-			break;
-		  case 3:			  
-			  System.out.println("entrou em listar todos");
-			  cp.listarPessoa();
-			break;		  
-		  case 4:
-			  System.out.println("Digite id da Pessoa para deletar");
-			  int idDelete = Integer.parseInt(in.nextLine());
-			  cp.removerPessoa(new Pessoa(idDelete, null, null));
-			  cp.listarPessoa();
-		    // code block
-			break;
-		  default:
-		    // code block
-		}
+		
 	}
 }
